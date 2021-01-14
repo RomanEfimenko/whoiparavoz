@@ -6,20 +6,50 @@ from config import TOKEN
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
-random.seed(random.random())
+jurnal = [1,2]
+trenermode = [1]
+
+@dp.message_handler(commands=['trener'])
+async def process_trener_command(message: types.Message):
+    if(message.from_user.id==449474491) :
+        if(trenermode[0] == 0) :
+            trenermode[0] = 1
+            print('Trener mode: on')
+            await bot.send_message(message.from_user.id, 'Trener mode: on')
+        else :
+            trenermode[0] = 0
+            print('Trener mode: off')
+            await bot.send_message(message.from_user.id, 'Trener mode: off')
 
 @dp.message_handler(commands=['help'])
 async def process_help_command(message: types.Message):
-    await bot.send_message(message.from_user.id, "htoya")
+    #if(trenermode[0] == 0 or message.from_user.id==449474491) :
+    if(trenermode[0] == 0) :
+        await bot.send_message(message.from_user.id, "htoya")
 
 @dp.message_handler(commands=['htoya'])
 async def process_htoya_command(message: types.Message):
-    await message.reply("Кароче, ти...")
-    count_img = 8
-    array_nazvi = ['typo zero','Не Рижа Беркут','Лисий із бразерс','Рижа Мавпа','Порноактьор','Бог','Говяжий Анус','Ти тепер сліпий, апзахзп','Розплата Готема']
-    number_img = random.randint(1,count_img)
-    title_img = array_nazvi[number_img]
-    await bot.send_photo(message.chat.id,'https://paravozzalupa.at.ua/'+str(number_img)+'.png', caption = title_img)
-
+    print(str(message.chat))
+    if(trenermode[0] == 0) :
+        count_img = 8 # Кількість фото
+        array_nazvi = ['','Не Рижа Беркут','Лисий із бразерс','Рижа Мавпа','Порноактьор','Бог','Говяжий Анус','Ти тепер сліпий, апзахзп','Розплата Готема'] # Підписи під фото по номеру
+        # Генеруємо Рандомне число від 1 до count_img
+        number_img = 1+random.randrange(count_img)
+        # Дивимося в jurnal чи не було такого числа недавно, обновляєм jurnal
+        while True :
+            if number_img in jurnal :
+                number_img = random.randint(1,count_img)
+                continue
+            else :
+                jurnal.append(number_img)
+                if(len(jurnal) > 5) :
+                    jurnal.pop(0)
+                break
+        title_img = array_nazvi[number_img]
+        # Отправляєм пісьма в паравоз
+        await message.reply("Кароче, ти...")
+        await bot.send_photo(message.chat.id,'https://paravozzalupa.at.ua/'+str(number_img)+'.png', caption = title_img)
 if __name__ == '__main__':
     executor.start_polling(dp)
+
+# https://surik00.gitbooks.io/aiogram-lessons/content/chapter1.html
