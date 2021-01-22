@@ -47,14 +47,22 @@ async def process_trener_off_command(message: types.Message):
 async def process_help_command(message: types.Message):
     #if(trenermode[0] == 0 or message.from_user.id==449474491) :
     if(trenermode[0] == 0) :
-        await bot.send_message(message.from_user.id, "htoya")
+        await bot.send_message(message.from_user.id, "\t/htoya\nАхуєнний Код Давінчі")
 
 @dp.message_handler(commands=['htoya'])
 async def process_htoya_command(message: types.Message):
     print(str(message.chat))
     if(trenermode[0] == 0) :
-        count_img = 8 # Кількість фото
+        count_img = 15 # Кількість фото
         array_nazvi = ['','Не Рижа Беркут','Лисий із бразерс','Рижа Мавпа','Порноактьор','Бог','Говяжий Анус','Ти тепер сліпий, апзахзп','Розплата Готема'] # Підписи під фото по номеру
+        array_nazvi.append('DeadOcher') # 9.jpg
+        array_nazvi.append('Гарячий і сексуальний поліцай') # 10.jpg
+        array_nazvi.append('Мафіознік') # 11.jpg
+        array_nazvi.append('Нікіта-Трєнєр') # 12.jpg
+        array_nazvi.append('Дедінсайд(гуль, сивий гей)') # 13.jpg
+        array_nazvi.append('Продаєш кавуни на базарі') # 14.jpg
+        array_nazvi.append('Ксєркс') # 15.jpg
+
         # Генеруємо Рандомне число від 1 до count_img
         number_img = 1+random.randrange(count_img)
         # Дивимося в jurnal чи не було такого числа недавно, обновляєм jurnal
@@ -64,7 +72,7 @@ async def process_htoya_command(message: types.Message):
                 continue
             else :
                 jurnal.append(number_img)
-                if(len(jurnal) > 5) :
+                if(len(jurnal) > 8) : # число это сколько картинок подряд должно не повторятся
                     jurnal.pop(0)
                 break
         title_img = array_nazvi[number_img]
