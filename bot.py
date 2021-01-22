@@ -3,24 +3,43 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 import random
 from config import TOKEN
+from config import ID_TRENER
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 jurnal = [1,2]
 trenermode = [1]
 
+#-- Команди для тренєра
 @dp.message_handler(commands=['trener'])
 async def process_trener_command(message: types.Message):
-    if(message.from_user.id==449474491) :
+    if(message.from_user.id==ID_TRENER) :
+        trenermode_status = 'on'
         if(trenermode[0] == 0) :
-            trenermode[0] = 1
-            print('Trener mode: on')
-            await bot.send_message(message.from_user.id, 'Trener mode: on')
-        else :
-            trenermode[0] = 0
-            print('Trener mode: off')
-            await bot.send_message(message.from_user.id, 'Trener mode: off')
+            trenermode_status = 'off,\nМожна нажимать на /htoya'
+        await bot.send_message(message.from_user.id, 'Trener mode: '+trenermode_status+'\n/trener_on\n/trener_off')
 
+@dp.message_handler(commands=['trener_on'])
+async def process_trener_on_command(message: types.Message):
+    if(message.from_user.id==ID_TRENER) :
+        trenermode[0] = 1
+        print('Trener mode: on')
+        trenermode_status = 'on'
+        if(trenermode[0] == 0) :
+            trenermode_status = 'off,\nМожна нажимать на /htoya'
+        await bot.send_message(message.from_user.id, 'Trener mode: '+trenermode_status+'\n/trener_on\n/trener_off')
+
+@dp.message_handler(commands=['trener_off'])
+async def process_trener_off_command(message: types.Message):
+    if(message.from_user.id==ID_TRENER) :
+        trenermode[0] = 0
+        print('Trener mode: off')
+        trenermode_status = 'on'
+        if(trenermode[0] == 0) :
+            trenermode_status = 'off,\nМожна нажимать на /htoya'
+        await bot.send_message(message.from_user.id, 'Trener mode: '+trenermode_status+'\n/trener_on\n/trener_off')
+
+#-- Команди для плєбєїв
 @dp.message_handler(commands=['help'])
 async def process_help_command(message: types.Message):
     #if(trenermode[0] == 0 or message.from_user.id==449474491) :
