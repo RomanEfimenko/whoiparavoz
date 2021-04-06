@@ -79,6 +79,7 @@ async def process_htoya_command(message: types.Message):
         # Отправляєм пісьма в паравоз
         await message.reply("Кароче, ти...")
         await bot.send_photo(message.chat.id,'https://paravozzalupa.at.ua/'+str(number_img)+'.png', caption = title_img)
+
 if __name__ == '__main__':
     executor.start_polling(dp)
 
